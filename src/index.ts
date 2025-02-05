@@ -1,22 +1,22 @@
 
-import { getTweet } from './get-tweet';
-import { ThrowStatement } from 'typescript';
+require("dotenv").config();
+// import { getTokenFromLLM } from "./get-token-from-llm";
+import { getTweet } from "./get-tweet";
+// import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+// import { swap } from "./swap";
 
+// const SOL_AMOUNT = 0.001 * LAMPORTS_PER_SOL;
 
 async function main(userName: string) {
-    const newTweet = await getTweet(userName);
-    console.log(newTweet);
-    // for (tweet of newTweet) {
-    //     await tokenAddress = await getTokenFromLLM(tweet.content);
-    //     if (tokenAddress) {
-    //         await txn = await createSwapIns();
-    //         for (let i = 0; i < Spam_Count; i++) {
-    //             sendTxn(txn);
-    //         }
+    const newTweets = await getTweet(userName);
+    console.log(newTweets)
+    // for (let tweet of newTweets) {
+    //     const tokenAddress = await getTokenFromLLM(tweet.contents)
+    //     if (tokenAddress !== "null") {
+    //         console.log(`trying to execute tweet => ${tweet.contents}`)
+    //         await swap(tokenAddress, SOL_AMOUNT);
     //     }
     // }
 }
 
-
-
-main("elonmusk");
+main("sabbir__tanvir");

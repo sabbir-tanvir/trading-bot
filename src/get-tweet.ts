@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const TWEET_MAX_TIME_MS = 1 * 60 * 1000;
+const TWEET_MAX_TIME_MS = 24 * 60 * 60 * 1000;
 
 interface Tweet {
     contents: string;
@@ -8,33 +8,33 @@ interface Tweet {
     createdAt: string;
 }
 
-
-export async function getTweets(userName: string): Promise<Tweet[]> {
-
+export async function getTweet(userName: string): Promise<Tweet[]> {
     let config = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `https://twttrapi.p.rapidapi.com/user-tweets?username=${userName}`,
+        url: `https://twitter-api45.p.rapidapi.com/timeline.php?screenname=${userName}`,
         headers: { 
-        'x-rapidapi-host': 'twttrapi.p.rapidapi.com', 
-        'x-rapidapi-key': process.env.RAPID_API_KEY
+            'x-rapidapi-host': 'twitter-api45.p.rapidapi.com', 
+            'x-rapidapi-key': process.env.RAPID_API_KEY
         }
     };
   
-    const response = await axios.request(config)
-    const timelineResponse = response.data.data.user_result.result.timeline_response.timeline.instructions.filter((x: any) => x.__typename === "TimelineAddEntries");
-
+    const response = await axios.request(config);
+    const timelineResponse = response.data.timeline;
+    
     const tweets: Tweet[] = [];
-    timelineResponse[0].entries.map((x: any) => {
+    
+    timelineResponse.forEach((tweet: any) => {
         try {
             tweets.push({
-                contents: x.content.content.tweetResult.result.legacy.full_text ?? x.content.content.tweetResult.result.core.user_result.result.legacy.description,
-                id: x.content.content.tweetResult.result.core.user_result.result.legacy.id_str,
-                createdAt: x.content.content.tweetResult.result.legacy.created_at
-            })
-        } catch(e) {
-
+                contents: tweet.text,
+                id: tweet.tweet_id,
+                createdAt: tweet.created_at
+            });
+        } catch (e) {
+            console.error("Error parsing tweet: ", e);
         }
     });
-    return tweets.filter(x => new Date(x.createdAt).getTime() > Date.now() - TWEET_MAX_TIME_MS);
+    
+    return tweets.filter(tweet => new Date(tweet.createdAt).getTime() > Date.now() - TWEET_MAX_TIME_MS);
 }

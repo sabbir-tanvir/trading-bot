@@ -14,35 +14,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTweet = getTweet;
 const axios_1 = __importDefault(require("axios"));
-const TWEET_MAX_COUNT = 60 * 1000;
+const TWEET_MAX_TIME_MS = 24 * 60 * 60 * 1000;
 function getTweet(userName) {
     return __awaiter(this, void 0, void 0, function* () {
-        var _a, _b, _c, _d;
         let config = {
-            method: "GET",
-            url: `https://twitter241.p.rapidapi.com/user-tweets?username=${userName}`,
+            method: 'get',
+            maxBodyLength: Infinity,
+            url: `https://twitter-api45.p.rapidapi.com/timeline.php?screenname=${userName}`,
             headers: {
-                "x-rapidapi-host": "twitter241.p.rapidapi.com",
-                "x-rapidapi-key": "007b97a9d5msh3d02e719153d8eep1d8f6cjsnd9c419b21663"
+                'x-rapidapi-host': 'twitter-api45.p.rapidapi.com',
+                'x-rapidapi-key': process.env.RAPID_API_KEY
             }
         };
-        try {
-            const response = yield axios_1.default.request(config);
-            const timelineResponse = (_d = (_c = (_b = (_a = response.data.data.user_result.result.timeline_response.timeline.instructions
-                .find((x) => x.entry)) === null || _a === void 0 ? void 0 : _a.entry.content) === null || _b === void 0 ? void 0 : _b.itemContent) === null || _c === void 0 ? void 0 : _c.tweet_results) === null || _d === void 0 ? void 0 : _d.result;
-            if (!timelineResponse) {
-                return [];
+        const response = yield axios_1.default.request(config);
+        const timelineResponse = response.data.timeline;
+        const tweets = [];
+        timelineResponse.forEach((tweet) => {
+            try {
+                tweets.push({
+                    contents: tweet.text,
+                    id: tweet.tweet_id,
+                    createdAt: tweet.created_at
+                });
             }
-            const tweets = [{
-                    id: timelineResponse.rest_id,
-                    content: timelineResponse.legacy.full_text,
-                    created_at: timelineResponse.legacy.created_at
-                }];
-            return tweets;
-        }
-        catch (error) {
-            console.error("Error fetching tweets:", error);
-            return [];
-        }
+            catch (e) {
+                console.error("Error parsing tweet: ", e);
+            }
+        });
+        return tweets.filter(tweet => new Date(tweet.createdAt).getTime() > Date.now() - TWEET_MAX_TIME_MS);
     });
 }

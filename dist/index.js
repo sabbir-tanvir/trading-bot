@@ -9,20 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("dotenv").config();
+// import { getTokenFromLLM } from "./get-token-from-llm";
 const get_tweet_1 = require("./get-tweet");
+// import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+// import { swap } from "./swap";
+// const SOL_AMOUNT = 0.001 * LAMPORTS_PER_SOL;
 function main(userName) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newTweet = yield (0, get_tweet_1.getTweet)(userName);
-        console.log(newTweet);
-        // for (tweet of newTweet) {
-        //     await tokenAddress = await getTokenFromLLM(tweet.content);
-        //     if (tokenAddress) {
-        //         await txn = await createSwapIns();
-        //         for (let i = 0; i < Spam_Count; i++) {
-        //             sendTxn(txn);
-        //         }
+        const newTweets = yield (0, get_tweet_1.getTweet)(userName);
+        console.log(newTweets);
+        // for (let tweet of newTweets) {
+        //     const tokenAddress = await getTokenFromLLM(tweet.contents)
+        //     if (tokenAddress !== "null") {
+        //         console.log(`trying to execute tweet => ${tweet.contents}`)
+        //         await swap(tokenAddress, SOL_AMOUNT);
         //     }
         // }
     });
 }
-main("elonmusk");
+main("sabbir__tanvir");
