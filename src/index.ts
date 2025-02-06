@@ -17,15 +17,9 @@ async function main(userName: string) {
     //     }
     // }
     const tweetContent = `
-        $SOLOTH is designed to be a Slow 🦥 Mooner 🚀 The Laziest Legend on Solana. 
-@Solothsol
-
-
-CA: J1m16cwJZqhaBPNQkrXTjsPis4tcuven4uM3Cf6JVJ3h
-
-Chart: https://dexscreener.com/solana/5rr1dtzxktvqtvmyvucczgcmguwadfky31hcggrkxqpf
-
-Buy: https://raydium.io/swap/?inputMint=sol&outputMint=J1m16cwJZqhaBPNQkrXTjsPis4tcuven4uM3Cf6JVJ3h
+        More and more liquidity is stacking up on the topside.
+        Never short #Bitcoin during a bull market.
+        The upcoming short squeeze will punish all the bears.
     `;
     const response = await getTokenFromLLM(tweetContent);
     console.log(response);
