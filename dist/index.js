@@ -10,15 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv").config();
-// import { getTokenFromLLM } from "./get-token-from-llm";
-const get_tweet_1 = require("./get-tweet");
+const get_token_1 = require("./get-token");
 // import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 // import { swap } from "./swap";
 // const SOL_AMOUNT = 0.001 * LAMPORTS_PER_SOL;
 function main(userName) {
     return __awaiter(this, void 0, void 0, function* () {
-        const newTweets = yield (0, get_tweet_1.getTweet)(userName);
-        console.log(newTweets);
+        // const newTweets = await getTweet(userName);
+        // console.log(newTweets)
         // for (let tweet of newTweets) {
         //     const tokenAddress = await getTokenFromLLM(tweet.contents)
         //     if (tokenAddress !== "null") {
@@ -26,6 +25,19 @@ function main(userName) {
         //         await swap(tokenAddress, SOL_AMOUNT);
         //     }
         // }
+        const tweetContent = `
+        $SOLOTH is designed to be a Slow 🦥 Mooner 🚀 The Laziest Legend on Solana. 
+@Solothsol
+
+
+CA: J1m16cwJZqhaBPNQkrXTjsPis4tcuven4uM3Cf6JVJ3h
+
+Chart: https://dexscreener.com/solana/5rr1dtzxktvqtvmyvucczgcmguwadfky31hcggrkxqpf
+
+Buy: https://raydium.io/swap/?inputMint=sol&outputMint=J1m16cwJZqhaBPNQkrXTjsPis4tcuven4uM3Cf6JVJ3h
+    `;
+        const response = yield (0, get_token_1.getTokenFromLLM)(tweetContent);
+        console.log(response);
     });
 }
 main("sabbir__tanvir");

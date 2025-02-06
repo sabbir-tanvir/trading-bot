@@ -1,1 +1,1 @@
-{"root":["./src/get-tweet.ts","./src/index.ts"],"version":"5.7.3"}
+{"root":["./src/get-token.ts","./src/get-tweet.ts","./src/index.ts"],"version":"5.7.3"}
